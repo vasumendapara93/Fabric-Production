@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Textile Job Calculator</title>
+    <title>Fabric Production Calculator</title>
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
@@ -13,8 +13,7 @@
             <h1 class="text-3xl md:text-4xl text-gray-600 font-bold text-center mb-3">Fabric Production Calculator</h1>
             <div class="justify-center items-center grid">
 
-                <div
-                    class="bg-white rounded-lg shadow-lg border-2 border-sky-200 m-3 p-4 w-fit h-full col-span-4 md:col-span-2 lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-lg border-2 border-sky-200 m-3 p-4 w-fit h-full col-span-4 md:col-span-2 lg:col-span-1">
                     <div class="m-2 grid grid-cols-5">
                         <label for="rpm" class="text-base text-gray-600 m-2 col-span-2 text-right">RPM</label>
                         <input
@@ -22,21 +21,26 @@
                             id="rpm" type="number" placeholder="RPM" value="0" onfocus="clearDefault(this)" onblur="restoreDefault(this,'0')">
                     </div>
                     <div class="m-2 grid grid-cols-5">
-                        <label for="x" class="text-base text-gray-600 m-2 col-span-2 text-right">X</label>
+                        <label for="x" class="text-base text-gray-600 m-2 col-span-2 text-right">PIC</label>
                         <input
                             class="h-10 p-2 border-2 border-sky-200 focus:outline-none text-gray-600 rounded-lg col-span-3"
-                            id="x" type="number" placeholder="X" value="0" onfocus="clearDefault(this)" onblur="restoreDefault(this,'0')">
+                            id="pic" type="number" placeholder="PIC" value="0" onfocus="clearDefault(this)" onblur="restoreDefault(this,'0')">
                     </div>
                     <div class="m-2 grid grid-cols-5">
-                        <label for="y" class="text-base text-gray-600 m-2 col-span-2 text-right">Y</label>
+                        <label for="meterin24h"
+                            class="text-base text-gray-600 m-2 col-span-2 text-right">METER in 24H</label>
+                            <h1 class="p-2 text-base text-gray-600" id="meterin24h">00.00</h1>
+                    </div>
+                    <div class="m-2 grid grid-cols-5">
+                        <label for="percentage" class="text-base text-gray-600 m-2 col-span-2 text-right">PR(%)</label>
                         <input
                             class="h-10 p-2 border-2 border-sky-200 focus:outline-none text-gray-600 rounded-lg col-span-3"
-                            id="y" type="number" placeholder="Y" value="0" onfocus="clearDefault(this)" onblur="restoreDefault(this,'0')">
+                            id="percentage" type="number" placeholder="PR" value="0" onfocus="clearDefault(this)" onblur="restoreDefault(this,'0')">
                     </div>
                     <div class="m-2 grid grid-cols-5">
                         <label for="meter"
                             class="text-base text-gray-600 m-2 col-span-2 text-right">METER</label>
-                            <h1 class="p-2 text-base text-gray-600" id="meter">00.00</h1>
+                            <h1 class="p-2 text-base text-gray-600" id="meter">00.00 <p style="display: inline;"> Meter</p></h1>
                     </div>
                 </div>
 
@@ -54,17 +58,27 @@
 
         function calculateProduction(){
 
-            const h = 24;
-            const m = 60;
-            const p = 90;
+            const h = 24.00;
+            const m = 60.00;
+            const formula = 39.37;
+
+            // let rpm1 = parseFloat(document.getElementById("rpm").value);
+            // let x = parseFloat(document.getElementById("x").value);
+            // let y = parseFloat(document.getElementById("y").value);
+
+            // let t_meter = (( rpm * h * m ) / x ) / y;
+            // let meter1 = ( 90 * t_meter ) / 100;
+            // document.getElementById("meter").innerHTML = meter.toFixed(2);
 
             let rpm = parseFloat(document.getElementById("rpm").value);
-            let x = parseFloat(document.getElementById("x").value);
-            let y = parseFloat(document.getElementById("y").value);
-
-            let t_meter = (( rpm * h * m ) / x ) / y;
-            let meter = ( 90 * t_meter ) / 100;
-            document.getElementById("meter").innerHTML = meter.toFixed(2);
+            let pic = parseFloat(document.getElementById("pic").value);
+            let percentage = parseFloat(document.getElementById("percentage").value);
+            
+            let total_meter = (( rpm * h * m) / formula ) / pic;
+            document.getElementById("meterin24h").innerHTML = total_meter.toFixed(2);
+            let meter = ( percentage * total_meter ) / 100;
+            document.getElementById("meter").innerHTML = meter.toFixed(2) + " Meters";
+            
         }
 
         function clearDefault(input){
